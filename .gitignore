@@ -1,0 +1,26 @@
+# Rust
+target/
+**/target/
+**/.cargo/
+Cargo.lock.bak
+
+# Build artifacts
+*.exe
+*.msi
+*.zip
+*.dll
+*.pdb
+*.log
+__pycache__/
+dist/
+
+# Runtime data
+WebView2Data/
+webview-data/
+*.WebView2/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

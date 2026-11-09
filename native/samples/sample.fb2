@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FictionBook xmlns="http://www.gribuser.ru/xml/fictionbook/2.0">
+<description><title-info><book-title>微光 FB2 示例</book-title><author><first-name>林</first-name><last-name>间</last-name></author><lang>zh</lang></title-info></description>
+<body><title><p>第一章</p></title><section><p>这是 FB2 格式的测试段落。</p><p>第二段文字用于确认解析器工作正常。</p></section><section><title><p>第二章</p></title><p>下一章内容。</p></section></body>
+</FictionBook>

@@ -1,0 +1,7 @@
+/target
+**/*.log
+/*.png
+/docs/*.png
+*.tmp
+.DS_Store
+Thumbs.db

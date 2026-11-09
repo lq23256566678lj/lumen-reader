@@ -1,0 +1,62 @@
+name: Build
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  native:
+    name: Native / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-24.04, macos-14]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Linux dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential pkg-config libgtk-3-dev \
+            libxkbcommon-dev libwayland-dev libx11-dev libxi-dev \
+            libgl1-mesa-dev libasound2-dev libssl-dev
+      - name: Build
+        run: cargo build --release --manifest-path native/Cargo.toml
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lumen-reader-native-${{ matrix.os }}
+          path: |
+            native/target/release/lumen-reader.exe
+            native/target/release/lumen-reader
+          if-no-files-found: error
+
+  webview:
+    name: WebView / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-24.04, macos-14]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Linux dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential pkg-config libgtk-3-dev \
+            libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev \
+            libssl-dev
+      - name: Build
+        run: cargo build --release --manifest-path webview/Cargo.toml
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lumen-reader-webview-${{ matrix.os }}
+          path: |
+            webview/target/release/lumen-reader-webview.exe
+            webview/target/release/lumen-reader-webview
+          if-no-files-found: error

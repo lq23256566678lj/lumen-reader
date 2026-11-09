@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lumen Reader · WebView2</title>
+  <link rel="stylesheet" href="/style.css?v=4">
+</head>
+<body>
+  <section id="welcome" class="welcome">
+    <div class="welcome-card">
+      <div class="brand">LUMEN <span>WEBVIEW2</span></div>
+      <h1>用浏览器内核阅读电子书</h1>
+      <p class="lead">彩色页面、固定版式、CSS 圆圈与人物名，都按原书样式渲染。</p>
+      <label class="drop" id="drop">
+        <input id="file" type="file" accept=".epub,application/epub+zip" hidden>
+        <strong>选择一本 EPUB</strong>
+        <span>或把文件拖到这里</span>
+      </label>
+      <p class="hint">也可以直接从下面的书架打开已导入的书。</p>
+      <p id="error" class="error"></p>
+    </div>
+    <div id="shelf" class="shelf hidden">
+      <div class="shelf-head">
+        <h2>书架</h2>
+        <div class="shelf-tools">
+          <input id="search" type="search" placeholder="搜索书名或作者…">
+          <select id="sort" title="排序">
+            <option value="smart">智能卷序</option>
+            <option value="recent">最近打开</option>
+            <option value="added">导入时间</option>
+            <option value="title">书名</option>
+          </select>
+          <button id="new-folder" class="ghost">新建文件夹</button>
+          <button id="sync" class="ghost">同步</button>
+          <button id="import" class="ghost">导入电子书</button>
+          <input id="import-file" type="file" accept=".epub,.pdf,.txt,.fb2,.cbz,.mobi,.azw,.azw3" hidden>
+        </div>
+      </div>
+      <div class="folders-row">
+        <div id="folders" class="folders"></div>
+        <div id="folder-actions" class="folder-actions hidden">
+          <button id="rename-folder" class="ghost small">重命名</button>
+          <button id="delete-folder" class="ghost small danger">删除</button>
+        </div>
+      </div>
+      <div id="books" class="books"></div>
+      <p id="shelf-empty" class="shelf-empty hidden">书架还是空的。先导入一本 EPUB。</p>
+    </div>
+  </section>
+
+  <section id="reader" class="reader hidden">
+    <header class="topbar">
+      <button id="back" class="ghost" title="换一本书">← 打开其他书</button>
+      <div class="book-title">
+        <strong id="book-title">书名</strong>
+        <span id="book-author">作者</span>
+      </div>
+      <div class="top-actions">
+        <button id="add-bookmark" class="ghost" title="在当前页加书签">☆ 书签</button>
+        <button id="settings-toggle" class="ghost" title="阅读设置与同步">设置</button>
+        <button id="prev" class="ghost">上一章</button>
+        <span id="counter" class="counter">1 / 1</span>
+        <button id="next" class="ghost">下一章</button>
+      </div>
+    </header>
+    <aside class="sidebar">
+      <div class="sidebar-head">目录</div>
+      <nav id="toc" class="toc"></nav>
+      <div class="sidebar-head bookmarks-head">书签</div>
+      <div id="bookmarks" class="bookmarks"></div>
+    </aside>
+    <main class="content">
+      <iframe id="page" title="正文" src="about:blank"></iframe>
+    </main>
+  </section>
+  <div id="settings-panel" class="panel hidden">
+    <div class="panel-card">
+      <div class="panel-head">
+        <h2>阅读设置</h2>
+        <button id="settings-close" class="ghost">关闭</button>
+      </div>
+      <div class="panel-section">
+        <label>字号 <input id="font-size" type="range" min="14" max="30" step="1"></label>
+        <label>行距 <input id="line-height" type="range" min="1.2" max="2.6" step="0.1"></label>
+        <label>主题
+          <select id="theme">
+            <option value="dark">深色</option>
+            <option value="sepia">羊皮纸</option>
+            <option value="light">浅色</option>
+          </select>
+        </label>
+        <label>正文字体
+          <select id="font-family">
+            <option value="">跟随原书</option>
+            <option value="'Microsoft YaHei', sans-serif">微软雅黑</option>
+            <option value="'SimSun', serif">宋体</option>
+            <option value="'KaiTi', serif">楷体</option>
+          </select>
+        </label>
+      </div>
+      <div class="panel-section">
+        <h3>WebDAV 同步</h3>
+        <label>服务器地址 <input id="dav-url" type="text" placeholder="https://dav.example.com/remote.php/dav/files/me"></label>
+        <label>用户名 <input id="dav-username" type="text"></label>
+        <label>密码 <input id="dav-password" type="password"></label>
+        <label>远端目录 <input id="dav-remote-dir" type="text" placeholder="books/lumen"></label>
+        <div class="panel-actions">
+          <button id="dav-test" class="ghost">测试连接</button>
+          <button id="dav-sync" class="primary">立即同步</button>
+        </div>
+        <p id="dav-status" class="dav-status"></p>
+      </div>
+    </div>
+  </div>
+  <script src="/app.js?v=4"></script>
+</body>
+</html>
